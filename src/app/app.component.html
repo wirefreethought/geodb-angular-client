@@ -1,0 +1,9 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<h2>If you get a list of US states below, all is good!</h2>
+
+<ul *ngIf="regions">
+  <li *ngFor="let region of regions">
+    {{region.name}}
+  </li>
+</ul>
+

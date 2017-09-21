@@ -1,4 +1,4 @@
-export class Region {
+export class RegionSummary {
   countryCode: string;
   fipsCode: string;
   hascCode: string;

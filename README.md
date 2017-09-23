@@ -1,28 +1,47 @@
-# GeodbAngularClient
+# GeoDB Angular Client
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2.
+This library provides Angular client bindings to the [GeoDB](https://rapidapi.com/user/wirefreethought/package/GeoDB) service.
 
-## Development server
+## Setup
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Create an account on [RapidAPI](https://rapidapi.com). As part of account creation, Rapid asks for credit-card info. As long as you stay within the free usage limits of the Basic plan, your credit card will not be charged.
+2. [Select](https://rapidapi.com/user/wirefreethought/package/GeoDB/pricing) a GeoDB plan.
+3. ``cd`` into your Angular project root.
+4. ``npm install wft-geodb-angular-client --save``
+5. Update your ``AppModule.ts`` as follows:
+  ```
+  @NgModule({
+    declarations: [
+      ...
+    ],
+    imports: [
+      ...
+      GeoDbModule.forRoot({
+        apiKey: YOUR_MASHAPE_KEY,
+        serviceUri: https://wft-geo-db.p.mashape.com
+      })
+    ],
+    bootstrap: [AppComponent]
+  })
+  export class AppModule { }
+  ```
+6. In your Typescript class:
 
-## Code scaffolding
+``constructor(private geoDbService: GeoDbService) { }``
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
 
-## Build
+Find all cities starting with 'Los' in the United States with a minimum population of 100,000 (first 10 results):
+```
+this.geoDbService.findCities("Los", "US", 100000, 10, 0)
+  .subscribe(
+    (response: GeoResponse<CitySummary[]>) => {
+      const totalCount = response.metadata.totalCount;
+      let data: CitySummary[] = response.data;
+      
+      // Do your thing!
+    }
+   );
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+See the [sample app](https://github.com/wirefreethought/geo-db-sample-angular-app) for more detailed examples.

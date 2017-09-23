@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import {GeoDbModule} from "./modules/geo-db/geodb.module";
+import {GeoDbModule} from "../lib/geo-db/geodb.module";
 
 import {environment} from "../environments/environment";
 

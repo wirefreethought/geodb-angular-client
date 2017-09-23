@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {GeoDbService} from "./modules/geo-db/geodb.service";
-import {GeoResponse} from "./modules/geo-db/model/geo-response.model";
-import {RegionSummary} from "./modules/geo-db/model/region-summary.model";
-import {Locale} from "./modules/geo-db/model/locale.model";
-import {Currency} from "./modules/geo-db/model/currency.model";
+import {GeoDbService} from "../lib/geo-db/geodb.service";
+import {GeoResponse} from "../lib/geo-db/model/geo-response.model";
+import {RegionSummary} from "../lib/geo-db/model/region-summary.model";
+import {Locale} from "../lib/geo-db/model/locale.model";
+import {Currency} from "../lib/geo-db/model/currency.model";
 
 @Component({
   selector: 'app-root',

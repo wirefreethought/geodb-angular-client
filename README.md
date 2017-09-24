@@ -33,7 +33,13 @@ This library provides Angular client bindings to the [GeoDB](https://rapidapi.co
 
 Find all cities starting with 'Los' in the United States with a minimum population of 100,000 (first 10 results):
 ```
-this.geoDbService.findCities("Los", "US", 100000, 10, 0)
+this.geoDbService.findCities({
+    namePrefix: "Los", 
+    countryCode: "US", 
+    minPopulation: 100000, 
+    limit: 10, 
+    offset: 0
+  })
   .subscribe(
     (response: GeoResponse<CitySummary[]>) => {
       const totalCount = response.metadata.totalCount;

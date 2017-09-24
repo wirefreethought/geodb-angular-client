@@ -8,7 +8,7 @@ import {CityDetails} from "./model/city-details.model";
 import {CitySummary} from "./model/city-summary.model";
 import {CountrySummary} from "./model/country-summary.model";
 import {GeoResponse} from "./model/geo-response.model";
-import {NearLocationRequest} from "./model/near-location.request";
+import {NearLocationRequest} from "./model/request/near-location-request.model";
 import {RegionSummary} from "./model/region-summary.model";
 
 import {GeoDbConfig} from "./model/geodb-config.model";
@@ -16,6 +16,12 @@ import {CountryDetails} from "./model/country-details.model";
 import {RegionDetails} from "./model/region-details.model";
 import {Currency} from "./model/currency.model";
 import {Locale} from "./model/locale.model";
+import {FindCitiesRequest} from "./model/request/find-cities-request.model";
+import {FindCollectionRequest} from "./model/request/find-collection-request.model";
+import {FindCountriesRequest} from "./model/request/find-countries-request.model";
+import {FindCurrenciesRequest} from "./model/request/find-currencies-request.model";
+import {FindRegionsRequest} from "./model/request/find-regions-request.model";
+import {FindRegionCitiesRequest} from "./model/request/find-region-cities-request.model";
 
 @Injectable()
 export class GeoDbService {
@@ -31,31 +37,54 @@ export class GeoDbService {
     this.localesEndpoint = config.serviceUri + "/v1/locale/locales";
   }
 
+  private static buildPagingParams(request: FindCollectionRequest): HttpParams {
+    return new HttpParams()
+      .set("offset", "" + request.offset)
+      .set("limit", "" + request.limit);
+  }
+
+  private static toNearLocationString(nearLocation: NearLocationRequest): string {
+    let locationString = "";
+
+    if (nearLocation.latitude > 0) {
+      locationString += "+";
+    }
+
+    locationString += nearLocation.latitude;
+
+    if (nearLocation.longitude > 0) {
+      locationString += "+";
+    }
+
+    locationString += nearLocation.longitude;
+
+    return locationString;
+  }
+
   findCityById(id: number): Observable<GeoResponse<CityDetails>> {
     const endpoint = this.citiesEndpoint + "/" + id;
 
     return this.httpClient.get<GeoResponse<CityDetails>>(endpoint);
   }
 
-  findCities(
-    namePrefix: string,
-    countryCode: string,
-    minCityPopulation: number,
-    limit: number,
-    offset: number): Observable<GeoResponse<CitySummary[]>> {
+  findCities(request: FindCitiesRequest): Observable<GeoResponse<CitySummary[]>> {
 
-    let params: HttpParams = this.buildPagingParams(limit, offset);
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
 
-    if (namePrefix) {
-      params = params.set("namePrefix", namePrefix);
+    if (request.namePrefix) {
+      params = params.set("namePrefix", request.namePrefix);
     }
 
-    if (countryCode) {
-      params = params.set("countryCode", countryCode);
+    if (request.countryCode) {
+      params = params.set("countryCode", request.countryCode);
     }
 
-    if (minCityPopulation) {
-      params = params.set("minPopulation", "" + minCityPopulation);
+    if (request.minPopulation) {
+      params = params.set("minPopulation", "" + request.minPopulation);
+    }
+
+    if (request.includeDeleted) {
+      params = params.set("includeDeleted", request.includeDeleted);
     }
 
     return this.httpClient.get<GeoResponse<CitySummary[]>>(
@@ -66,26 +95,25 @@ export class GeoDbService {
     );
   }
 
-  findCitiesNearLocation(
-    nearLocation: NearLocationRequest,
-    namePrefix: string,
-    minCityPopulation: number,
-    limit: number,
-    offset: number): Observable<GeoResponse<CitySummary[]>> {
+  findCitiesNearLocation(request: FindCitiesRequest): Observable<GeoResponse<CitySummary[]>> {
 
-    let params: HttpParams = this.buildPagingParams(limit, offset);
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
 
     params = params
-      .set("nearLocation", this.toNearLocationString(nearLocation))
-      .set("nearLocationRadius", "" + nearLocation.radius)
-      .set("nearLocationRadiusUnit", "MI");
+      .set("nearLocation", GeoDbService.toNearLocationString(request.nearLocation))
+      .set("nearLocationRadius", "" + request.nearLocation.radius)
+      .set("nearLocationRadiusUnit", request.nearLocation.radiusUnit);
 
-    if (namePrefix) {
-      params = params.set("namePrefix", namePrefix);
+    if (request.namePrefix) {
+      params = params.set("namePrefix", request.namePrefix);
     }
 
-    if (minCityPopulation) {
-      params = params.set("minPopulation", "" + minCityPopulation);
+    if (request.minPopulation) {
+      params = params.set("minPopulation", "" + request.minPopulation);
+    }
+
+    if (request.includeDeleted) {
+      params = params.set("includeDeleted", request.includeDeleted);
     }
 
     return this.httpClient.get<GeoResponse<CitySummary[]>>(
@@ -96,15 +124,12 @@ export class GeoDbService {
     );
   }
 
-  findCountries(
-    currencyCode: string,
-    limit: number,
-    offset: number): Observable<GeoResponse<CountrySummary[]>> {
+  findCountries(request: FindCountriesRequest): Observable<GeoResponse<CountrySummary[]>> {
 
-    let params: HttpParams = this.buildPagingParams(limit, offset);
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
 
-    if (currencyCode) {
-      params = params.set("currencyCode", currencyCode);
+    if (request.currencyCode) {
+      params = params.set("currencyCode", request.currencyCode);
     }
 
     return this.httpClient.get<GeoResponse<CountrySummary[]>>(
@@ -121,15 +146,12 @@ export class GeoDbService {
     return this.httpClient.get<GeoResponse<CountryDetails>>(endpoint);
   }
 
-  findCurrencies(
-    countryCode: string,
-    limit: number,
-    offset: number): Observable<GeoResponse<Currency[]>> {
+  findCurrencies(request: FindCurrenciesRequest): Observable<GeoResponse<Currency[]>> {
 
-    let params: HttpParams = this.buildPagingParams(limit, offset);
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
 
-    if (countryCode) {
-      params = params.set("countryCode", countryCode);
+    if (request.countryCode) {
+      params = params.set("countryCode", request.countryCode);
     }
 
     return this.httpClient.get<GeoResponse<Currency[]>>(
@@ -140,11 +162,9 @@ export class GeoDbService {
     );
   }
 
-  findLocales(
-    limit: number,
-    offset: number): Observable<GeoResponse<Locale[]>> {
+  findLocales(request: FindCollectionRequest): Observable<GeoResponse<Locale[]>> {
 
-    let params: HttpParams = this.buildPagingParams(limit, offset);
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
 
     return this.httpClient.get<GeoResponse<Locale[]>>(
       this.localesEndpoint,
@@ -154,14 +174,11 @@ export class GeoDbService {
     );
   }
 
-  findRegions(
-    countryCode: string,
-    limit: number,
-    offset: number): Observable<GeoResponse<RegionSummary[]>> {
+  findRegions(request: FindRegionsRequest): Observable<GeoResponse<RegionSummary[]>> {
 
-    const endpoint = this.buildRegionsEndpoint(countryCode);
+    const endpoint = this.buildRegionsEndpoint(request.countryCode);
 
-    const params: HttpParams = this.buildPagingParams(limit, offset);
+    const params: HttpParams = GeoDbService.buildPagingParams(request);
 
     return this.httpClient.get<GeoResponse<RegionSummary[]>>(
       endpoint,
@@ -177,19 +194,14 @@ export class GeoDbService {
     return this.httpClient.get<GeoResponse<RegionDetails>>(endpoint);
   }
 
-  findRegionCities(
-    countryCode: string,
-    regionCode: string,
-    minCityPopulation: number,
-    limit: number,
-    offset: number): Observable<GeoResponse<CitySummary[]>> {
+  findRegionCities(request: FindRegionCitiesRequest): Observable<GeoResponse<CitySummary[]>> {
 
-    const endpoint = this.buildRegionEndpoint(countryCode, regionCode) + "/cities";
+    const endpoint = this.buildRegionEndpoint(request.countryCode, request.regionCode) + "/cities";
 
-    let params: HttpParams = this.buildPagingParams(limit, offset);
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
 
-    if (minCityPopulation) {
-      params = params.set("minPopulation", "" + minCityPopulation);
+    if (request.minPopulation) {
+      params = params.set("minPopulation", "" + request.minPopulation);
     }
 
     return this.httpClient.get<GeoResponse<CitySummary[]>>(
@@ -200,35 +212,11 @@ export class GeoDbService {
     );
   }
 
-  private buildPagingParams(limit: number, offset: number): HttpParams {
-    return new HttpParams()
-      .set("offset", "" + offset)
-      .set("limit", "" + limit);
-  }
-
   private buildRegionEndpoint(countryCode: string, regionCode: string): string {
     return this.buildRegionsEndpoint(countryCode) + "/" + regionCode;
   }
 
   private buildRegionsEndpoint(countryCode: string): string {
     return this.countriesEndpoint + "/" + countryCode + "/regions";
-  }
-
-  private toNearLocationString(nearLocation: NearLocationRequest): string {
-    let locationString = "";
-
-    if (nearLocation.latitude > 0) {
-      locationString += "+";
-    }
-
-    locationString += nearLocation.latitude;
-
-    if (nearLocation.longitude > 0) {
-      locationString += "+";
-    }
-
-    locationString += nearLocation.longitude;
-
-    return locationString;
   }
 }

@@ -7,7 +7,7 @@ This library provides Angular client bindings to the [GeoDB](https://rapidapi.co
 1. Create an account on [RapidAPI](https://rapidapi.com). As part of account creation, Rapid asks for credit-card info. As long as you stay within the free usage limits of the Basic plan, your credit card will not be charged.
 2. [Select](https://rapidapi.com/user/wirefreethought/package/GeoDB/pricing) a GeoDB plan.
 3. ``cd`` into your Angular project root.
-4. ``npm install wft-geodb-angular-client --save``
+4. ``npm install wft-geodb-angular-client@latest --save``
 5. Update your ``AppModule.ts`` as follows:
     ```
     @NgModule({

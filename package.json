@@ -1,6 +1,6 @@
 {
   "name": "wft-geodb-angular-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Provides Angular client bindings to the GeoDB service.",
   "keywords": [
     "geodb",
@@ -10,14 +10,14 @@
     "sdk"
   ],
   "author": {
-    "name" : "Michael Mogley",
-    "email" : "mmogley@wirefreethought.com",
-    "url" : "http://wirefreethought.com"
+    "name": "Michael Mogley",
+    "email": "mmogley@wirefreethought.com",
+    "url": "http://wirefreethought.com"
   },
   "homepage": "https://github.com/wirefreethought/geo-db-angular-client",
-  "repository" : {
-    "type" : "git",
-    "url" : "git@github.com:wirefreethought/geo-db-angular-client.git"
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wirefreethought/geo-db-angular-client.git"
   },
   "bugs": {
     "url": "https://github.com/wirefreethought/geo-db-angular-client/issues"

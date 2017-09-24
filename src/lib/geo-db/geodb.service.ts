@@ -22,6 +22,8 @@ import {FindCountriesRequest} from "./model/request/find-countries-request.model
 import {FindCurrenciesRequest} from "./model/request/find-currencies-request.model";
 import {FindRegionsRequest} from "./model/request/find-regions-request.model";
 import {FindRegionCitiesRequest} from "./model/request/find-region-cities-request.model";
+import {IncludeDeletedMode} from "./model/include-deleted-mode.enum";
+import {LengthUnit} from "./model/length-unit.enum";
 
 @Injectable()
 export class GeoDbService {
@@ -84,7 +86,7 @@ export class GeoDbService {
     }
 
     if (request.includeDeleted) {
-      params = params.set("includeDeleted", request.includeDeleted);
+      params = params.set("includeDeleted", IncludeDeletedMode[request.includeDeleted]);
     }
 
     return this.httpClient.get<GeoResponse<CitySummary[]>>(
@@ -102,7 +104,7 @@ export class GeoDbService {
     params = params
       .set("nearLocation", GeoDbService.toNearLocationString(request.nearLocation))
       .set("nearLocationRadius", "" + request.nearLocation.radius)
-      .set("nearLocationRadiusUnit", request.nearLocation.radiusUnit);
+      .set("nearLocationRadiusUnit", LengthUnit[request.nearLocation.radiusUnit]);
 
     if (request.namePrefix) {
       params = params.set("namePrefix", request.namePrefix);
@@ -113,7 +115,7 @@ export class GeoDbService {
     }
 
     if (request.includeDeleted) {
-      params = params.set("includeDeleted", request.includeDeleted);
+      params = params.set("includeDeleted", IncludeDeletedMode[request.includeDeleted]);
     }
 
     return this.httpClient.get<GeoResponse<CitySummary[]>>(

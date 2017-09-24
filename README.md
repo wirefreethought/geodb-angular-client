@@ -25,16 +25,34 @@ This library provides Angular client bindings to the [GeoDB](https://rapidapi.co
     })
     export class AppModule { }
     ```
-6. In your Typescript class:
-
-``constructor(private geoDbService: GeoDbService) { }``
 
 ## Usage
 
-Find all cities starting with 'Los' in the United States with a minimum population of 100,000 (first 10 results):
+In your Typescript class:
+
+``constructor(private geoDbService: GeoDbService) { }``
+
+Later on, in some method:
+
+```
+this.geoDbService.someMethod({
+    someRequestParam: value,
+    someOtherRequestParam: value,
+    ...
+  })
+  .subscribe(
+    (response: GeoResponse<TheResponsePayloadType>) => {
+        // Do your thing!
+      }
+  )
+```
+
+## Cookbook
+
+Find all cities in the US starting with *San* and having a minimum population of 100,000 (first 10 results):
 ```
 this.geoDbService.findCities({
-    namePrefix: "Los", 
+    namePrefix: "San", 
     countryCode: "US", 
     minPopulation: 100000, 
     limit: 10, 
@@ -47,7 +65,55 @@ this.geoDbService.findCities({
       
       // Do your thing!
     }
-   );
+  );
+```
+
+Find all cities and towns in the Los Angeles area and having a minimum population of 50,000 (first 10 results):
+```
+this.geoDbService.findCityById(98364)
+  .subscribe(
+    (cityByIdResponse: GeoResponse<CityDetails> => {
+      const cityLocation: GeoLocation = cityByIdResponse.data.location;
+  
+      this.geoDbService.findCitiesNearLocation({
+          nearLocation: {
+            latitude: cityLocation.latitude,
+            longitude: cityLocation.longitude,
+            radius: 50,
+            radiusUnit: "MI"
+          }, 
+          minPopulation: 50000, 
+          limit: 10, 
+          offset: 0
+        })
+        .subscribe(
+          (citiesNearLocationResponse: GeoResponse<CitySummary[]>) => {
+            const totalCount = citiesNearLocationResponse.metadata.totalCount;
+            let data: CitySummary[] = citiesNearLocationResponse.data;
+            
+            // Do your thing!
+        }
+      );    
+    }
+  );
+```
+
+Find all cities in California having a minimum population of 100,000 (first 10 results):
+```
+this.geoDbService.findRegionCities({
+    countryCode: "US",
+    regionCode: "CA",
+    minPopulation: 100000
+  })
+  .subscribe(
+    (response: GeoResponse<CitySummary[]>) => {
+      const totalCount = response.metadata.totalCount;
+      let data: CitySummary[] = response.data;
+      
+      // Do your thing!
+    }
+  );
+
 ```
 
 See the [sample app](https://github.com/wirefreethought/geo-db-sample-angular-app) for more detailed examples.

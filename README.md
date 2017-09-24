@@ -9,22 +9,22 @@ This library provides Angular client bindings to the [GeoDB](https://rapidapi.co
 3. ``cd`` into your Angular project root.
 4. ``npm install wft-geodb-angular-client --save``
 5. Update your ``AppModule.ts`` as follows:
-  ```
-  @NgModule({
-    declarations: [
-      ...
-    ],
-    imports: [
-      ...
-      GeoDbModule.forRoot({
-        apiKey: YOUR_MASHAPE_KEY,
-        serviceUri: https://wft-geo-db.p.mashape.com
-      })
-    ],
-    bootstrap: [AppComponent]
-  })
-  export class AppModule { }
-  ```
+    ```
+    @NgModule({
+      declarations: [
+        ...
+      ],
+      imports: [
+        ...
+        GeoDbModule.forRoot({
+          apiKey: YOUR_MASHAPE_KEY,
+          serviceUri: https://wft-geo-db.p.mashape.com
+        })
+      ],
+      bootstrap: [AppComponent]
+    })
+    export class AppModule { }
+    ```
 6. In your Typescript class:
 
 ``constructor(private geoDbService: GeoDbService) { }``

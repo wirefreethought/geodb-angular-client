@@ -120,4 +120,5 @@ this.geoDbService.findRegionCities({
 
 See the [sample app](https://github.com/wirefreethought/geo-db-sample-angular-app) for more detailed examples.
 
+## API Docs
 For detailed REST docs, including all supported endpoints as well as request/response format per endpoint, [go here](https://wirefreethought.github.io/geo-db-docs/).

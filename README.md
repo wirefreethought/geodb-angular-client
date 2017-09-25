@@ -84,7 +84,7 @@ this.geoDbService.findCityById(98364)
           }, 
           minPopulation: 50000, 
           limit: 10, 
-          offset: 0
+          offset: 0          
         })
         .subscribe(
           (citiesNearLocationResponse: GeoResponse<CitySummary[]>) => {
@@ -103,7 +103,9 @@ Find all cities in California having a minimum population of 100,000 (first 10 r
 this.geoDbService.findRegionCities({
     countryCode: "US",
     regionCode: "CA",
-    minPopulation: 100000
+    minPopulation: 100000,
+    limit: 10, 
+    offset: 0           
   })
   .subscribe(
     (response: GeoResponse<CitySummary[]>) => {
@@ -117,3 +119,5 @@ this.geoDbService.findRegionCities({
 ```
 
 See the [sample app](https://github.com/wirefreethought/geo-db-sample-angular-app) for more detailed examples.
+
+For detailed REST docs, including all supported endpoints as well as request/response format per endpoint, [go here](https://wirefreethought.github.io/geo-db-docs/).

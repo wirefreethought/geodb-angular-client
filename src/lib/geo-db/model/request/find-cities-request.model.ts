@@ -3,7 +3,7 @@ import {NearLocationRequest} from "./near-location-request.model";
 
 export interface FindCitiesRequest extends FindCollectionRequest {
   namePrefix?: string;
-  countryCode?: string;
+  countryCodes?: Array<string>;
   minPopulation?: number;
   nearLocation?: NearLocationRequest;
   includeDeleted?: string;

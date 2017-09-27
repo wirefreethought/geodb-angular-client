@@ -75,8 +75,8 @@ export class GeoDbService {
       params = params.set("namePrefix", request.namePrefix);
     }
 
-    if (request.countryCode) {
-      params = params.set("countryCode", request.countryCode);
+    if (request.countryCodes) {
+      params = params.set("countryCodes", request.countryCodes.join(", "));
     }
 
     if (request.minPopulation) {

@@ -53,7 +53,9 @@ Find all cities in the US starting with *San* and having a minimum population of
 ```
 this.geoDbService.findCities({
     namePrefix: "San", 
-    countryCode: "US", 
+    countryCodes: [
+      "US"
+    ], 
     minPopulation: 100000, 
     limit: 10, 
     offset: 0

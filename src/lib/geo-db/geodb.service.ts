@@ -79,6 +79,10 @@ export class GeoDbService {
       params = params.set("countryCodes", request.countryCodes.join(", "));
     }
 
+    if (request.excludedCountryCodes) {
+      params = params.set("excludedCountryCodes", request.excludedCountryCodes.join(", "));
+    }
+
     if (request.minPopulation) {
       params = params.set("minPopulation", "" + request.minPopulation);
     }

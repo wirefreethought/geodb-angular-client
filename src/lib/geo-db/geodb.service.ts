@@ -216,6 +216,14 @@ export class GeoDbService {
     );
   }
 
+  get apiKey(): string {
+    return this.config.apiKey;
+  }
+
+  setApiKey(apiKey: string) {
+    this.config.apiKey = apiKey;
+  }
+
   private buildRegionEndpoint(countryCode: string, regionCode: string): string {
     return this.buildRegionsEndpoint(countryCode) + "/" + regionCode;
   }

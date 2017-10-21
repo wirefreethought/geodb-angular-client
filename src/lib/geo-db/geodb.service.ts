@@ -104,7 +104,6 @@ export class GeoDbService {
     let params: HttpParams = GeoDbService.buildPagingParams(request);
 
     params = params
-      .set("nearLocation", GeoDbService.toNearLocationString(request.nearLocation))
       .set("nearLocationRadius", "" + request.nearLocation.radius)
       .set("nearLocationRadiusUnit", request.nearLocation.radiusUnit);
 
@@ -120,8 +119,15 @@ export class GeoDbService {
       params = params.set("includeDeleted", request.includeDeleted);
     }
 
+    // Workaround for HttpClient '+' encoding bug.
+    const nearLocationString = GeoDbService
+      .toNearLocationString(request.nearLocation)
+      .replace("+", "%2B");
+
+    const endpoint = this.citiesEndpoint + "?nearLocation=" + nearLocationString;
+
     return this.httpClient.get<GeoResponse<CitySummary[]>>(
-      this.citiesEndpoint,
+      endpoint,
       {
         params: params
       }

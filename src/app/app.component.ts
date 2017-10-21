@@ -4,7 +4,6 @@ import {GeoResponse} from "../lib/geo-db/model/geo-response.model";
 import {RegionSummary} from "../lib/geo-db/model/region-summary.model";
 import {Locale} from "../lib/geo-db/model/locale.model";
 import {Currency} from "../lib/geo-db/model/currency.model";
-import {FindCurrenciesRequest} from "../lib/geo-db/model/request/find-currencies-request.model";
 
 @Component({
   selector: 'app-root',

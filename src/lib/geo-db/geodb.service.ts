@@ -22,6 +22,7 @@ import {FindCountriesRequest} from "./model/request/find-countries-request.model
 import {FindCurrenciesRequest} from "./model/request/find-currencies-request.model";
 import {FindRegionsRequest} from "./model/request/find-regions-request.model";
 import {FindRegionCitiesRequest} from "./model/request/find-region-cities-request.model";
+import {FindNearbyCitiesRequest} from "./model/request/find-nearby-cities-request.model";
 
 @Injectable()
 export class GeoDbService {
@@ -125,6 +126,32 @@ export class GeoDbService {
       .replace("+", "%2B");
 
     const endpoint = this.citiesEndpoint + "?nearLocation=" + nearLocationString;
+
+    return this.httpClient.get<GeoResponse<CitySummary[]>>(
+      endpoint,
+      {
+        params: params
+      }
+    );
+  }
+
+  findNearbyCities(request: FindNearbyCitiesRequest): Observable<GeoResponse<CitySummary[]>> {
+
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
+
+    params = params
+      .set("nearLocationRadius", "" + request.nearLocationRadius)
+      .set("nearLocationRadiusUnit", request.nearLocationRadiusUnit);
+
+    if (request.minPopulation) {
+      params = params.set("minPopulation", "" + request.minPopulation);
+    }
+
+    if (request.includeDeleted) {
+      params = params.set("includeDeleted", request.includeDeleted);
+    }
+
+    const endpoint = this.citiesEndpoint + "/" + request.cityId + "/nearbyCities";
 
     return this.httpClient.get<GeoResponse<CitySummary[]>>(
       endpoint,

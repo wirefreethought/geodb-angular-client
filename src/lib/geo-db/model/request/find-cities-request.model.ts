@@ -7,5 +7,6 @@ export interface FindCitiesRequest extends FindCollectionRequest {
   excludedCountryCodes?: Array<string>;
   minPopulation?: number;
   nearLocation?: NearLocationRequest;
+  timeZoneIds?:Array<string>;
   includeDeleted?: string;
 }

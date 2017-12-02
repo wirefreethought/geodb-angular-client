@@ -4,6 +4,7 @@ import {GeoResponse} from "../lib/geo-db/model/geo-response.model";
 import {RegionSummary} from "../lib/geo-db/model/region-summary.model";
 import {Locale} from "../lib/geo-db/model/locale.model";
 import {Currency} from "../lib/geo-db/model/currency.model";
+import {TimeZone} from "../lib/geo-db/model/time-zone.model";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   currencies: Currency[];
   locales: Locale[];
   regions: RegionSummary[];
+  timeZones: TimeZone[];
 
   constructor(private geoDbService: GeoDbService) { }
 
@@ -44,6 +46,15 @@ export class AppComponent implements OnInit {
       })
       .subscribe((response: GeoResponse<RegionSummary[]>) => {
         this.regions = response.data.slice();
+      });
+
+    // Find all time zones.
+    this.geoDbService.findTimeZones({
+      limit: 1000,
+      offset: 0
+    })
+      .subscribe((response: GeoResponse<TimeZone[]>) => {
+        this.timeZones = response.data.slice();
       });
   }
 }

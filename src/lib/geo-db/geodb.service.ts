@@ -23,6 +23,7 @@ import {FindCurrenciesRequest} from "./model/request/find-currencies-request.mod
 import {FindRegionsRequest} from "./model/request/find-regions-request.model";
 import {FindRegionCitiesRequest} from "./model/request/find-region-cities-request.model";
 import {FindNearbyCitiesRequest} from "./model/request/find-nearby-cities-request.model";
+import {TimeZone} from "./model/time-zone.model";
 
 @Injectable()
 export class GeoDbService {
@@ -30,21 +31,26 @@ export class GeoDbService {
   private countriesEndpoint: string;
   private currenciesEndpoint: string;
   private localesEndpoint: string;
+  private timeZonesEndpoint: string;
 
   constructor(private httpClient: HttpClient, private config: GeoDbConfig) {
+
     this.citiesEndpoint = config.serviceUri + "/v1/geo/cities";
     this.countriesEndpoint = config.serviceUri + "/v1/geo/countries";
     this.currenciesEndpoint = config.serviceUri + "/v1/locale/currencies";
     this.localesEndpoint = config.serviceUri + "/v1/locale/locales";
+    this.timeZonesEndpoint = config.serviceUri + "/v1/locale/timezones";
   }
 
   private static buildPagingParams(request: FindCollectionRequest): HttpParams {
+
     return new HttpParams()
       .set("offset", "" + request.offset)
       .set("limit", "" + request.limit);
   }
 
   private static toNearLocationString(nearLocation: NearLocationRequest): string {
+
     let locationString = "";
 
     if (nearLocation.latitude > 0) {
@@ -63,7 +69,8 @@ export class GeoDbService {
   }
 
   findCityById(id: number): Observable<GeoResponse<CityDetails>> {
-    const endpoint = this.citiesEndpoint + "/" + id;
+
+    const endpoint = this.buildCityEndpoint(id);
 
     return this.httpClient.get<GeoResponse<CityDetails>>(endpoint);
   }
@@ -82,6 +89,10 @@ export class GeoDbService {
 
     if (request.excludedCountryCodes) {
       params = params.set("excludedCountryCodes", request.excludedCountryCodes.join(", "));
+    }
+
+    if (request.timeZoneIds) {
+      params = params.set("timeZoneIds", request.timeZoneIds.join(", "));
     }
 
     if (request.minPopulation) {
@@ -211,20 +222,6 @@ export class GeoDbService {
     );
   }
 
-  findRegions(request: FindRegionsRequest): Observable<GeoResponse<RegionSummary[]>> {
-
-    const endpoint = this.buildRegionsEndpoint(request.countryCode);
-
-    const params: HttpParams = GeoDbService.buildPagingParams(request);
-
-    return this.httpClient.get<GeoResponse<RegionSummary[]>>(
-      endpoint,
-      {
-        params: params
-      }
-    );
-  }
-
   findRegion(countryCode: string, regionCode: string): Observable<GeoResponse<RegionDetails>> {
     const endpoint = this.buildRegionsEndpoint(countryCode) + "/" + regionCode;
 
@@ -249,6 +246,32 @@ export class GeoDbService {
     );
   }
 
+  findRegions(request: FindRegionsRequest): Observable<GeoResponse<RegionSummary[]>> {
+
+    const endpoint = this.buildRegionsEndpoint(request.countryCode);
+
+    const params: HttpParams = GeoDbService.buildPagingParams(request);
+
+    return this.httpClient.get<GeoResponse<RegionSummary[]>>(
+      endpoint,
+      {
+        params: params
+      }
+    );
+  }
+
+  findTimeZones(request: FindCollectionRequest): Observable<GeoResponse<TimeZone[]>> {
+
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
+
+    return this.httpClient.get<GeoResponse<TimeZone[]>>(
+      this.timeZonesEndpoint,
+      {
+        params: params
+      }
+    );
+  }
+
   get apiKey(): string {
     return this.config.apiKey;
   }
@@ -257,11 +280,47 @@ export class GeoDbService {
     this.config.apiKey = apiKey;
   }
 
+  getCityDate(id: number): Observable<GeoResponse<string>> {
+
+    const endpoint = this.buildCityEndpoint(id) + "/date";
+
+    return this.httpClient.get<GeoResponse<string>>(endpoint);
+  }
+
+  getCityDateTime(id: number): Observable<GeoResponse<string>> {
+
+    const endpoint = this.buildCityEndpoint(id) + "/dateTime";
+
+    return this.httpClient.get<GeoResponse<string>>(endpoint);
+  }
+
+  getTimeZoneDate(zoneId: string): Observable<GeoResponse<string>> {
+
+    const endpoint = this.buildTimeZoneEndpoint(zoneId) + "/date";
+
+    return this.httpClient.get<GeoResponse<string>>(endpoint);
+  }
+
+  getTimeZoneDateTime(zoneId: string): Observable<GeoResponse<string>> {
+
+    const endpoint = this.buildTimeZoneEndpoint(zoneId) + "/dateTime";
+
+    return this.httpClient.get<GeoResponse<string>>(endpoint);
+  }
+
+  private buildCityEndpoint(cityId: number): string {
+    return this.citiesEndpoint + "/" + cityId;
+  }
+
   private buildRegionEndpoint(countryCode: string, regionCode: string): string {
     return this.buildRegionsEndpoint(countryCode) + "/" + regionCode;
   }
 
   private buildRegionsEndpoint(countryCode: string): string {
     return this.countriesEndpoint + "/" + countryCode + "/regions";
+  }
+
+  private buildTimeZoneEndpoint(zoneId: string): string {
+    return this.timeZonesEndpoint + "/" + zoneId;
   }
 }

@@ -18,3 +18,17 @@
     {{locale.code}}
   </li>
 </ul>
+
+<h2>Time Zones</h2>
+<table cols="3" *ngIf="timeZones">
+  <tr>
+    <th align="left">ID</th>
+    <th align="left">Name</th>
+    <th align="left">Raw UTC Offset Hours</th>
+  </tr>
+  <tr *ngFor="let timeZone of timeZones">
+    <td>{{timeZone.id}}</td>
+    <td>{{timeZone.name}}</td>
+    <td>{{timeZone.rawUtcOffsetHours}}</td>
+  </tr>
+</table>

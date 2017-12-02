@@ -120,6 +120,26 @@ this.geoDbService.findRegionCities({
 
 ```
 
+Find all cities in the Los Angeles and New York time-zones (first 10 results):
+```
+this.geoDbService.findCities({
+    timeZoneIds: [
+      "America__Los_Angeles, America__New_York"
+    ], 
+    limit: 10, 
+    offset: 0           
+  })
+  .subscribe(
+    (response: GeoResponse<CitySummary[]>) => {
+      const totalCount = response.metadata.totalCount;
+      let data: CitySummary[] = response.data;
+      
+      // Do your thing!
+    }
+  );
+
+```
+
 See the [sample app](https://github.com/wirefreethought/geo-db-sample-angular-app) for more detailed examples.
 
 ## API Docs

@@ -24,6 +24,7 @@ import {FindRegionsRequest} from "./model/request/find-regions-request.model";
 import {FindRegionCitiesRequest} from "./model/request/find-region-cities-request.model";
 import {FindNearbyCitiesRequest} from "./model/request/find-nearby-cities-request.model";
 import {TimeZone} from "./model/time-zone.model";
+import {GetCityDistanceRequest} from "./model/request/get-city-distance-request.model";
 
 @Injectable()
 export class GeoDbService {
@@ -280,13 +281,6 @@ export class GeoDbService {
     this.config.apiKey = apiKey;
   }
 
-  getCityDate(id: number): Observable<GeoResponse<string>> {
-
-    const endpoint = this.buildCityEndpoint(id) + "/date";
-
-    return this.httpClient.get<GeoResponse<string>>(endpoint);
-  }
-
   getCityDateTime(id: number): Observable<GeoResponse<string>> {
 
     const endpoint = this.buildCityEndpoint(id) + "/dateTime";
@@ -294,9 +288,25 @@ export class GeoDbService {
     return this.httpClient.get<GeoResponse<string>>(endpoint);
   }
 
-  getTimeZoneDate(zoneId: string): Observable<GeoResponse<string>> {
+  getCityDistance(request: GetCityDistanceRequest): Observable<GeoResponse<number>> {
 
-    const endpoint = this.buildTimeZoneEndpoint(zoneId) + "/date";
+    const endpoint = this.buildCityEndpoint(request.fromCity) + "/distance";
+
+    const params: HttpParams = new HttpParams()
+      .set("toCityId", "" + request.toCity)
+      .set("distanceUnit", "" + request.distanceUnit);
+
+    return this.httpClient.get<GeoResponse<number>>(
+      endpoint,
+      {
+        params: params
+      }
+    );
+  }
+
+  getCityTime(id: number): Observable<GeoResponse<string>> {
+
+    const endpoint = this.buildCityEndpoint(id) + "/time";
 
     return this.httpClient.get<GeoResponse<string>>(endpoint);
   }
@@ -304,6 +314,13 @@ export class GeoDbService {
   getTimeZoneDateTime(zoneId: string): Observable<GeoResponse<string>> {
 
     const endpoint = this.buildTimeZoneEndpoint(zoneId) + "/dateTime";
+
+    return this.httpClient.get<GeoResponse<string>>(endpoint);
+  }
+
+  getTimeZoneTime(zoneId: string): Observable<GeoResponse<string>> {
+
+    const endpoint = this.buildTimeZoneEndpoint(zoneId) + "/time";
 
     return this.httpClient.get<GeoResponse<string>>(endpoint);
   }

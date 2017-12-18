@@ -290,10 +290,10 @@ export class GeoDbService {
 
   getCityDistance(request: GetCityDistanceRequest): Observable<GeoResponse<number>> {
 
-    const endpoint = this.buildCityEndpoint(request.fromCity) + "/distance";
+    const endpoint = this.buildCityEndpoint(request.toCity) + "/distance";
 
     const params: HttpParams = new HttpParams()
-      .set("toCityId", "" + request.toCity)
+      .set("fromCityId", "" + request.fromCity)
       .set("distanceUnit", "" + request.distanceUnit);
 
     return this.httpClient.get<GeoResponse<number>>(

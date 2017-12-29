@@ -18,10 +18,10 @@ import {GeoDbConfig} from "./model/geodb-config.model";
     HttpClientModule
   ]
 })
-export class GeoDbModule {
+export class GeoDbProModule {
   static forRoot(config: GeoDbConfig): ModuleWithProviders {
     return {
-      ngModule: GeoDbModule,
+      ngModule: GeoDbProModule,
       providers: [
         {provide: GeoDbConfig, useValue: config}
       ]

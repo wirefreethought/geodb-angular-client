@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import {GeoDbModule} from "../lib/geo-db/geodb.module";
+import {GeoDbProModule} from "../lib/geo-db/geodb-pro.module";
 
 import {environment} from "../environments/environment";
 
@@ -13,7 +13,7 @@ import {environment} from "../environments/environment";
   ],
   imports: [
     BrowserModule,
-    GeoDbModule.forRoot({
+    GeoDbProModule.forRoot({
       apiKey: environment.service.apiKey,
       serviceUri: environment.service.uri
     })

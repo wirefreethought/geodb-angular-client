@@ -1,2 +1,2 @@
-export * from "./geodb.module";
+export * from "./geodb-pro.module";
 export * from "./geodb.service";

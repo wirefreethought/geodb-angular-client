@@ -4,10 +4,32 @@ This library provides Angular client bindings to the [GeoDB](https://rapidapi.co
 
 ## Setup
 
+1. ``cd`` into your Angular project root.
+
+2. ``npm install wft-geodb-angular-client@latest --save``
+
+If using the FREE instance, update your ``AppModule.ts`` as follows:
+```
+@NgModule({
+  declarations: [
+    ...
+  ],
+  imports: [
+    ...
+    GeoDbFreeModule.forRoot({
+      apiKey: null,
+      serviceUri: http://geodb-free-service.wirefreethought.com
+    })
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+Otherwise, if using the PRO instance:
+
 1. Create an account on [RapidAPI](https://rapidapi.com). As part of account creation, Rapid asks for credit-card info. As long as you stay within the free usage limits of the Basic plan, your credit card will not be charged.
 2. [Select](https://rapidapi.com/user/wirefreethought/package/GeoDB/pricing) a GeoDB plan.
-3. ``cd`` into your Angular project root.
-4. ``npm install wft-geodb-angular-client@latest --save``
 5. Update your ``AppModule.ts`` as follows:
     ```
     @NgModule({
@@ -16,7 +38,7 @@ This library provides Angular client bindings to the [GeoDB](https://rapidapi.co
       ],
       imports: [
         ...
-        GeoDbModule.forRoot({
+        GeoDbProModule.forRoot({
           apiKey: YOUR_MASHAPE_KEY,
           serviceUri: https://wft-geo-db.p.mashape.com
         })
@@ -143,4 +165,4 @@ this.geoDbService.findCities({
 See the [sample app](https://github.com/wirefreethought/geo-db-sample-angular-app) for more detailed examples.
 
 ## API Docs
-For detailed REST docs, including all supported endpoints as well as request/response format per endpoint, [go here](https://wirefreethought.github.io/geo-db-docs/).
+For detailed REST docs, [go here](http://geodb-city-api.wirefreethought.com/docs/api-reference/rest-api).

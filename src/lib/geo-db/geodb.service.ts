@@ -181,6 +181,10 @@ export class GeoDbService {
       params = params.set("currencyCode", request.currencyCode);
     }
 
+    if (request.namePrefix) {
+      params = params.set("namePrefix", request.namePrefix);
+    }
+
     return this.httpClient.get<GeoResponse<CountrySummary[]>>(
       this.countriesEndpoint,
       {
@@ -251,7 +255,11 @@ export class GeoDbService {
 
     const endpoint = this.buildRegionsEndpoint(request.countryCode);
 
-    const params: HttpParams = GeoDbService.buildPagingParams(request);
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
+
+    if (request.namePrefix) {
+        params = params.set("namePrefix", request.namePrefix);
+    }
 
     return this.httpClient.get<GeoResponse<RegionSummary[]>>(
       endpoint,

@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // Find all currencies.
     this.geoDbService.findCurrencies( {
-        limit: 1000,
+        limit: 10,
         offset: 0}
       )
       .subscribe((response: GeoResponse<Currency[]>) => {
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
 
     // Find all locales.
     this.geoDbService.findLocales({
-        limit: 1000,
+        limit: 10,
         offset: 0
       })
       .subscribe((response: GeoResponse<Locale[]>) => {
@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
     // Find all US states.
     this.geoDbService.findRegions({
         countryCode: 'US',
-        limit: 50,
+        limit: 10,
         offset: 0
       })
       .subscribe((response: GeoResponse<RegionSummary[]>) => {
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
 
     // Find all time zones.
     this.geoDbService.findTimeZones({
-      limit: 1000,
+      limit: 10,
       offset: 0
     })
       .subscribe((response: GeoResponse<TimeZone[]>) => {

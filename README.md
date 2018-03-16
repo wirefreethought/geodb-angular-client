@@ -92,7 +92,7 @@ this.geoDbService.findCities({
   );
 ```
 
-Find all cities and towns in the Los Angeles area and having a minimum population of 50,000 (first 10 results):
+Find all cities and towns in the Los Angeles area and having a minimum population of 50,000 - sorting by population, descending (first 10 results):
 ```
 this.geoDbService.findCityById(98364)
   .subscribe(
@@ -106,7 +106,10 @@ this.geoDbService.findCityById(98364)
             radius: 50,
             radiusUnit: "MI"
           }, 
-          minPopulation: 50000, 
+          minPopulation: 50000,
+          sortDirectives: [
+            "-population"
+          ], 
           limit: 10, 
           offset: 0          
         })
@@ -122,12 +125,15 @@ this.geoDbService.findCityById(98364)
   );
 ```
 
-Find all cities in California having a minimum population of 100,000 (first 10 results):
+Find all cities in California having a minimum population of 100,000 - sorting by population, ascending (first 10 results):
 ```
 this.geoDbService.findRegionCities({
     countryCode: "US",
     regionCode: "CA",
     minPopulation: 100000,
+    sortDirectives: [
+      "population"
+    ],     
     limit: 10, 
     offset: 0           
   })
@@ -142,12 +148,16 @@ this.geoDbService.findRegionCities({
 
 ```
 
-Find all cities in the Los Angeles and New York time-zones (first 10 results):
+Find all cities in the Los Angeles and New York time-zones - sorting by elevation, ascending, then population, descending (first 10 results):
 ```
 this.geoDbService.findCities({
     timeZoneIds: [
       "America__Los_Angeles, America__New_York"
     ], 
+    sortDirectives: [
+      "elevation",
+      "-population"
+    ],        
     limit: 10, 
     offset: 0           
   })

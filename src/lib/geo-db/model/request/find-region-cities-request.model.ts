@@ -5,4 +5,5 @@ export interface FindRegionCitiesRequest extends FindCollectionRequest {
   regionCode: string;
   minPopulation?: number;
   includeDeleted?: string;
+  sortDirectives?: Array<string>;
 }

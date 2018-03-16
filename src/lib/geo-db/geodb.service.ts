@@ -22,9 +22,10 @@ import {FindCountriesRequest} from "./model/request/find-countries-request.model
 import {FindCurrenciesRequest} from "./model/request/find-currencies-request.model";
 import {FindRegionsRequest} from "./model/request/find-regions-request.model";
 import {FindRegionCitiesRequest} from "./model/request/find-region-cities-request.model";
-import {FindNearbyCitiesRequest} from "./model/request/find-nearby-cities-request.model";
+import {FindCitiesNearCityRequest} from "./model/request/find-cities-near-city-request.model";
 import {TimeZone} from "./model/time-zone.model";
 import {GetCityDistanceRequest} from "./model/request/get-city-distance-request.model";
+import {FindCitiesNearLocationRequest} from "./model/request/find-cities-near-location-request.model";
 
 @Injectable()
 export class GeoDbService {
@@ -85,15 +86,15 @@ export class GeoDbService {
     }
 
     if (request.countryCodes) {
-      params = params.set("countryCodes", request.countryCodes.join(", "));
+      params = params.set("countryCodes", request.countryCodes.join(","));
     }
 
     if (request.excludedCountryCodes) {
-      params = params.set("excludedCountryCodes", request.excludedCountryCodes.join(", "));
+      params = params.set("excludedCountryCodes", request.excludedCountryCodes.join(","));
     }
 
     if (request.timeZoneIds) {
-      params = params.set("timeZoneIds", request.timeZoneIds.join(", "));
+      params = params.set("timeZoneIds", request.timeZoneIds.join(","));
     }
 
     if (request.minPopulation) {
@@ -104,6 +105,10 @@ export class GeoDbService {
       params = params.set("includeDeleted", request.includeDeleted);
     }
 
+    if (request.sortDirectives) {
+      params = params.set("sort", request.sortDirectives.join(","));
+    }
+
     return this.httpClient.get<GeoResponse<CitySummary[]>>(
       this.citiesEndpoint,
       {
@@ -112,13 +117,13 @@ export class GeoDbService {
     );
   }
 
-  findCitiesNearLocation(request: FindCitiesRequest): Observable<GeoResponse<CitySummary[]>> {
+  findCitiesNearLocation(request: FindCitiesNearLocationRequest): Observable<GeoResponse<CitySummary[]>> {
 
     let params: HttpParams = GeoDbService.buildPagingParams(request);
 
     params = params
-      .set("nearLocationRadius", "" + request.nearLocation.radius)
-      .set("nearLocationRadiusUnit", request.nearLocation.radiusUnit);
+      .set("radius", "" + request.nearLocation.radius)
+      .set("distanceUnit", request.nearLocation.distanceUnit);
 
     if (request.namePrefix) {
       params = params.set("namePrefix", request.namePrefix);
@@ -132,12 +137,16 @@ export class GeoDbService {
       params = params.set("includeDeleted", request.includeDeleted);
     }
 
+    if (request.sortDirectives) {
+      params = params.set("sort", request.sortDirectives.join(","));
+    }
+
     // Workaround for HttpClient '+' encoding bug.
-    const nearLocationString = GeoDbService
+    const locationId = GeoDbService
       .toNearLocationString(request.nearLocation)
       .replace("+", "%2B");
 
-    const endpoint = this.citiesEndpoint + "?nearLocation=" + nearLocationString;
+    const endpoint = this.citiesEndpoint + "?location=" + locationId;
 
     return this.httpClient.get<GeoResponse<CitySummary[]>>(
       endpoint,
@@ -147,13 +156,13 @@ export class GeoDbService {
     );
   }
 
-  findNearbyCities(request: FindNearbyCitiesRequest): Observable<GeoResponse<CitySummary[]>> {
+  findCitiesNearCity(request: FindCitiesNearCityRequest): Observable<GeoResponse<CitySummary[]>> {
 
     let params: HttpParams = GeoDbService.buildPagingParams(request);
 
     params = params
-      .set("nearLocationRadius", "" + request.nearLocationRadius)
-      .set("nearLocationRadiusUnit", request.nearLocationRadiusUnit);
+      .set("radius", "" + request.radius)
+      .set("distanceUnit", request.distanceUnit);
 
     if (request.minPopulation) {
       params = params.set("minPopulation", "" + request.minPopulation);
@@ -161,6 +170,10 @@ export class GeoDbService {
 
     if (request.includeDeleted) {
       params = params.set("includeDeleted", request.includeDeleted);
+    }
+
+    if (request.sortDirectives) {
+      params = params.set("sort", request.sortDirectives.join(","));
     }
 
     const endpoint = this.citiesEndpoint + "/" + request.cityId + "/nearbyCities";
@@ -241,6 +254,10 @@ export class GeoDbService {
 
     if (request.minPopulation) {
       params = params.set("minPopulation", "" + request.minPopulation);
+    }
+
+    if (request.sortDirectives) {
+      params = params.set("sort", request.sortDirectives.join(","));
     }
 
     return this.httpClient.get<GeoResponse<CitySummary[]>>(

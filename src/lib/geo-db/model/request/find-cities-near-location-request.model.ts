@@ -1,10 +1,10 @@
 import {FindCollectionRequest} from "./find-collection-request.model";
 import {NearLocationRequest} from "./near-location-request.model";
 
-export interface FindNearbyCitiesRequest extends FindCollectionRequest {
-  cityId: number;
+export interface FindCitiesNearLocationRequest extends FindCollectionRequest {
+  nearLocation?: NearLocationRequest;
   minPopulation?: number;
-  nearLocationRadius: number;
-  nearLocationRadiusUnit: string;
+  namePrefix?: string;
   includeDeleted?: string;
+  sortDirectives?: Array<string>;
 }

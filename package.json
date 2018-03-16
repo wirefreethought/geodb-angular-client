@@ -1,6 +1,6 @@
 {
   "name": "wft-geodb-angular-client",
-  "version": "2.10.0",
+  "version": "2.10.1",
   "description": "Provides Angular client bindings to the GeoDB service.",
   "keywords": [
     "geodb",

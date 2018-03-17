@@ -1,6 +1,6 @@
 # GeoDB Angular Client
 
-This library provides Angular client bindings to the [GeoDB](https://rapidapi.com/user/wirefreethought/package/GeoDB) service.
+This library provides Angular client bindings to the [GeoDB](http://geodb-city-api.wirefreethought.com/) service.
 
 ## Setup
 

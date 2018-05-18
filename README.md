@@ -75,7 +75,7 @@ Find all cities in the US starting with *San* and having a minimum population of
 ```
 this.geoDbService.findCities({
     namePrefix: "San", 
-    countryCodes: [
+    countryIds: [
       "US"
     ], 
     minPopulation: 100000, 
@@ -94,13 +94,13 @@ this.geoDbService.findCities({
 
 Find all cities and towns in the Los Angeles area and having a minimum population of 50,000 - sorting by population, descending (first 10 results):
 ```
-this.geoDbService.findCityById(98364)
+this.geoDbService.findCityById("Q65")
   .subscribe(
     (cityByIdResponse: GeoResponse<CityDetails> => {
       const cityLocation: GeoLocation = cityByIdResponse.data.location;
   
       this.geoDbService.findCitiesNearLocation({
-          nearLocation: {
+          location: {
             latitude: cityLocation.latitude,
             longitude: cityLocation.longitude,
             radius: 50,
@@ -128,7 +128,7 @@ this.geoDbService.findCityById(98364)
 Find all cities in California having a minimum population of 100,000 - sorting by population, ascending (first 10 results):
 ```
 this.geoDbService.findRegionCities({
-    countryCode: "US",
+    countryId: "US",
     regionCode: "CA",
     minPopulation: 100000,
     sortDirectives: [

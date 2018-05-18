@@ -12,6 +12,14 @@
   </li>
 </ul>
 
+<h2>Languages</h2>
+<ul *ngIf="languages">
+  <li *ngFor="let language of languages">
+    {{language.code}}
+  </li>
+</ul>
+
+
 <h2>Locales (first 10)</h2>
 <ul *ngIf="locales">
   <li *ngFor="let locale of locales">

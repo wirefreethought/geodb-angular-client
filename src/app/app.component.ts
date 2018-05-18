@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {GeoDbService} from "../lib/geo-db/geodb.service";
-import {GeoResponse} from "../lib/geo-db/model/geo-response.model";
-import {RegionSummary} from "../lib/geo-db/model/region-summary.model";
-import {Locale} from "../lib/geo-db/model/locale.model";
-import {Currency} from "../lib/geo-db/model/currency.model";
-import {TimeZone} from "../lib/geo-db/model/time-zone.model";
+import {Currency} from '../../projects/wft-geodb-angular-client/src/lib/geodb/model/currency.model';
+import {Locale} from '../../projects/wft-geodb-angular-client/src/lib/geodb/model/locale.model';
+import {RegionSummary} from '../../projects/wft-geodb-angular-client/src/lib/geodb/model/region-summary.model';
+import {TimeZone} from '../../projects/wft-geodb-angular-client/src/lib/geodb/model/time-zone.model';
+import {GeoDbService} from '../../projects/wft-geodb-angular-client/src/lib/geodb/geodb.service';
+import {GeoResponse} from '../../projects/wft-geodb-angular-client/src/lib/geodb/model/geo-response.model';
+import {Language} from '../../projects/wft-geodb-angular-client/src/lib/geodb/model/language.model';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import {TimeZone} from "../lib/geo-db/model/time-zone.model";
 })
 export class AppComponent implements OnInit {
   currencies: Currency[];
+  languages: Language[];
   locales: Locale[];
   regions: RegionSummary[];
   timeZones: TimeZone[];
@@ -29,6 +31,15 @@ export class AppComponent implements OnInit {
         this.currencies = response.data.slice();
     });
 
+    // Find all languages.
+    this.geoDbService.findLanguages({
+      limit: 10,
+      offset: 0
+    })
+      .subscribe((response: GeoResponse<Language[]>) => {
+        this.languages = response.data.slice();
+      });
+
     // Find all locales.
     this.geoDbService.findLocales({
         limit: 10,
@@ -40,7 +51,7 @@ export class AppComponent implements OnInit {
 
     // Find all US states.
     this.geoDbService.findRegions({
-        countryCode: 'US',
+        countryId: 'US',
         limit: 10,
         offset: 0
       })

@@ -1,5 +1,5 @@
 export class CitySummary {
-  id: number;
+  id: string;
   wikiDataId: string;
 
   city: string;

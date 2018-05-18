@@ -28,7 +28,24 @@
             "scripts": []
           },
           "configurations": {
-            "working": {
+            "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.working.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            },
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -53,8 +70,11 @@
             "browserTarget": "app:build"
           },
           "configurations": {
-            "working": {
-              "browserTarget": "app:build:working"
+            "dev": {
+              "browserTarget": "app:build:dev"
+            },
+            "prod": {
+              "browserTarget": "app:build:prod"
             }
           }
         },
@@ -108,7 +128,7 @@
             "project": "projects/wft-geodb-angular-client/ng-package.json"
           },
           "configurations": {
-            "production": {
+            "prod": {
               "project": "projects/wft-geodb-angular-client/ng-package.prod.json"
             }
           }

@@ -4,8 +4,8 @@
   "scripts": {
     "config": "node ./config-env.js",
     "ng": "ng",
-    "start": "npm run config -- -- --environment=working && ng serve --configuration=working",
-    "build": "npm run config -- -- --environment=working && ng build --configuration=working",
+    "start": "npm run config -- -- --environment=working && ng serve --configuration=dev",
+    "build": "npm run config -- -- --environment=working && ng build --configuration=prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

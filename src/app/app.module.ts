@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {GeoDbProModule} from '../../projects/wft-geodb-angular-client/src/lib/geodb/geodb-pro.module';
+import {GeoDbProModule} from '../../projects/wft-geodb-angular-client/src/lib/geodb-pro.module';
 
 import {environment} from '../environments/environment';
 

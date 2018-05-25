@@ -1,6 +1,6 @@
 # GeoDB Angular Client
 
-This library provides Angular client bindings to the [GeoDB](http://geodb-city-api.wirefreethought.com/) service.
+This library provides Angular client bindings to the [GeoDB](http://geodb-cities-api.wirefreethought.com/) service.
 
 ## Setup
 
@@ -29,7 +29,7 @@ export class AppModule { }
 Otherwise, if using the PRO instance:
 
 1. Create an account on [RapidAPI](https://rapidapi.com). As part of account creation, Rapid asks for credit-card info. As long as you stay within the free usage limits of the Basic plan, your credit card will not be charged.
-2. [Select](https://rapidapi.com/user/wirefreethought/package/GeoDB/pricing) a GeoDB plan.
+2. [Select](https://rapidapi.com/wirefreethought/api/GeoDB%20Cities/pricing) a GeoDB plan.
 5. Update your ``AppModule.ts`` as follows:
     ```
     @NgModule({
@@ -74,19 +74,19 @@ this.geoDbService.someMethod({
 Find all cities in the US starting with *San* and having a minimum population of 100,000 (first 10 results):
 ```
 this.geoDbService.findCities({
-    namePrefix: "San", 
+    namePrefix: "San",
     countryIds: [
       "US"
-    ], 
-    minPopulation: 100000, 
-    limit: 10, 
+    ],
+    minPopulation: 100000,
+    limit: 10,
     offset: 0
   })
   .subscribe(
     (response: GeoResponse<CitySummary[]>) => {
       const totalCount = response.metadata.totalCount;
       let data: CitySummary[] = response.data;
-      
+
       // Do your thing!
     }
   );
@@ -98,29 +98,29 @@ this.geoDbService.findCityById("Q65")
   .subscribe(
     (cityByIdResponse: GeoResponse<CityDetails> => {
       const cityLocation: GeoLocation = cityByIdResponse.data.location;
-  
+
       this.geoDbService.findCitiesNearLocation({
           location: {
             latitude: cityLocation.latitude,
             longitude: cityLocation.longitude,
             radius: 50,
             radiusUnit: "MI"
-          }, 
+          },
           minPopulation: 50000,
           sortDirectives: [
             "-population"
-          ], 
-          limit: 10, 
-          offset: 0          
+          ],
+          limit: 10,
+          offset: 0
         })
         .subscribe(
           (citiesNearLocationResponse: GeoResponse<CitySummary[]>) => {
             const totalCount = citiesNearLocationResponse.metadata.totalCount;
             let data: CitySummary[] = citiesNearLocationResponse.data;
-            
+
             // Do your thing!
         }
-      );    
+      );
     }
   );
 ```
@@ -133,15 +133,15 @@ this.geoDbService.findRegionCities({
     minPopulation: 100000,
     sortDirectives: [
       "population"
-    ],     
-    limit: 10, 
-    offset: 0           
+    ],
+    limit: 10,
+    offset: 0
   })
   .subscribe(
     (response: GeoResponse<CitySummary[]>) => {
       const totalCount = response.metadata.totalCount;
       let data: CitySummary[] = response.data;
-      
+
       // Do your thing!
     }
   );
@@ -153,19 +153,19 @@ Find all cities in the Los Angeles and New York time-zones - sorting by elevatio
 this.geoDbService.findCities({
     timeZoneIds: [
       "America__Los_Angeles, America__New_York"
-    ], 
+    ],
     sortDirectives: [
       "elevation",
       "-population"
-    ],        
-    limit: 10, 
-    offset: 0           
+    ],
+    limit: 10,
+    offset: 0
   })
   .subscribe(
     (response: GeoResponse<CitySummary[]>) => {
       const totalCount = response.metadata.totalCount;
       let data: CitySummary[] = response.data;
-      
+
       // Do your thing!
     }
   );

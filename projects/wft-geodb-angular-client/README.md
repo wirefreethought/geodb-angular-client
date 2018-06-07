@@ -175,4 +175,4 @@ this.geoDbService.findCities({
 See the [sample app](https://github.com/wirefreethought/geo-db-sample-angular-app) for more detailed examples.
 
 ## API Docs
-For detailed REST docs, [go here](http://geodb-city-api.wirefreethought.com/docs/api-reference/rest-api).
+For detailed REST docs, [go here](http://geodb-cities-api.wirefreethought.com/docs/api-reference/rest-api).

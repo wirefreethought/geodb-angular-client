@@ -53,7 +53,8 @@ export class GeoDbService {
 
     return new HttpParams()
       .set('offset', '' + request.offset)
-      .set('limit', '' + request.limit);
+      .set('limit', '' + request.limit)
+      .set('hateoasMode', 'false');
   }
 
   private static toLocationString(nearLocation: NearLocationRequest): string {

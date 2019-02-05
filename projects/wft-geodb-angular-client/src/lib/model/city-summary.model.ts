@@ -9,6 +9,7 @@ export class CitySummary {
   longitude: number;
   region: string;
   regionCode: string;
+  type: string;
 
   // Only included if the result of a location-constrained request
   distance: number;

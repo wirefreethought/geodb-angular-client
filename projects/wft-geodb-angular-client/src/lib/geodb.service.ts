@@ -122,6 +122,10 @@ export class GeoDbService {
       params = params.set('timeZoneIds', request.timeZoneIds.join(','));
     }
 
+    if (request.types) {
+      params = params.set('types', request.types.join(','));
+    }
+
     if (request.asciiMode) {
       params = params.set('asciiMode', '' + request.asciiMode);
     }
@@ -160,6 +164,10 @@ export class GeoDbService {
 
     if (request.namePrefix) {
       params = params.set('namePrefix', request.namePrefix);
+    }
+
+    if (request.types) {
+      params = params.set('types', request.types.join(','));
     }
 
     if (request.asciiMode) {
@@ -203,6 +211,10 @@ export class GeoDbService {
 
     if (request.minPopulation) {
       params = params.set('minPopulation', '' + request.minPopulation);
+    }
+
+    if (request.types) {
+      params = params.set('types', request.types.join(','));
     }
 
     if (request.asciiMode) {
@@ -349,6 +361,10 @@ export class GeoDbService {
 
     if (request.minPopulation) {
       params = params.set('minPopulation', '' + request.minPopulation);
+    }
+
+    if (request.types) {
+      params = params.set('types', request.types.join(','));
     }
 
     if (request.asciiMode) {

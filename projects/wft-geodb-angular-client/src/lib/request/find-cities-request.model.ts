@@ -6,6 +6,7 @@ export interface FindCitiesRequest extends FindCollectionRequest {
   minPopulation?: number;
   namePrefix?: string;
   timeZoneIds?: Array<string>;
+  types?: Array<string>;
 
   asciiMode?: boolean;
   languageCode?: string;

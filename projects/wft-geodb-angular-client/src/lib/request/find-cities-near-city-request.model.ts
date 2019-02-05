@@ -6,6 +6,7 @@ export interface FindCitiesNearCityRequest extends FindCollectionRequest {
   minPopulation?: number;
   radius: number;
   distanceUnit: string;
+  types?: Array<string>;
 
   asciiMode?: boolean;
   languageCode?: string;

@@ -5,6 +5,7 @@ export interface FindRegionCitiesRequest extends FindCollectionRequest {
   regionCode: string;
 
   minPopulation?: number;
+  types?: Array<string>;
 
   asciiMode?: boolean;
   languageCode?: string;

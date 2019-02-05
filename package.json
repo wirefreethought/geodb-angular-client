@@ -1,6 +1,6 @@
 {
   "name": "geodb-angular-client",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "scripts": {
     "config": "node ./config-env.js",
     "ng": "ng",

@@ -1,11 +1,11 @@
 import {FindCollectionRequest} from './find-collection-request.model';
 
-export interface FindCitiesNearCityRequest extends FindCollectionRequest {
-  cityId: string;
-
+export interface FindPlacesRequest extends FindCollectionRequest {
+  countryIds?: Array<string>;
+  excludedCountryIds?: Array<string>;
   minPopulation?: number;
-  radius: number;
-  distanceUnit: string;
+  namePrefix?: string;
+  timeZoneIds?: Array<string>;
   types?: Array<string>;
 
   asciiMode?: boolean;

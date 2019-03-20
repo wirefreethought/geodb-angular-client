@@ -1,4 +1,4 @@
-export class CitySummary {
+export class PlaceSummary {
   id: string;
   wikiDataId: string;
 
@@ -7,6 +7,7 @@ export class CitySummary {
   countryCode: string;
   latitude: number;
   longitude: number;
+  name: string;
   region: string;
   regionCode: string;
   type: string;
@@ -16,7 +17,7 @@ export class CitySummary {
 
   get displayName(): string {
     return this.region != null && this.region.trim().length > 0
-      ? this.city + ', ' + this.region + ', ' + this.country
-      : this.city + ', ' + this.country;
+      ? this.name + ', ' + this.region + ', ' + this.country
+      : this.name + ', ' + this.country;
   }
 }

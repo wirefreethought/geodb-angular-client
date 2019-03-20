@@ -73,19 +73,18 @@ this.geoDbService.someMethod({
 
 Find all cities in the US starting with *San* and having a minimum population of 100,000 (first 10 results):
 ```
-this.geoDbService.findCities({
+this.geoDbService.findPlaces({
     namePrefix: "San",
-    countryIds: [
-      "US"
-    ],
+    countryIds: ["US"],
     minPopulation: 100000,
+    types: ["CITY"],
     limit: 10,
     offset: 0
   })
   .subscribe(
-    (response: GeoResponse<CitySummary[]>) => {
+    (response: GeoResponse<PlaceSummary[]>) => {
       const totalCount = response.metadata.totalCount;
-      let data: CitySummary[] = response.data;
+      let data: PlaceSummary[] = response.data;
 
       // Do your thing!
     }
@@ -94,12 +93,12 @@ this.geoDbService.findCities({
 
 Find all cities and towns in the Los Angeles area and having a minimum population of 50,000 - sorting by population, descending (first 10 results):
 ```
-this.geoDbService.findCityById("Q65")
+this.geoDbService.findPlaceById("Q65")
   .subscribe(
-    (cityByIdResponse: GeoResponse<CityDetails> => {
-      const cityLocation: GeoLocation = cityByIdResponse.data.location;
+    (placeByIdResponse: GeoResponse<PlaceDetails> => {
+      const placeLocation: GeoLocation = placeByIdResponse.data.location;
 
-      this.geoDbService.findCitiesNearLocation({
+      this.geoDbService.findPlacesNearLocation({
           location: {
             latitude: cityLocation.latitude,
             longitude: cityLocation.longitude,
@@ -107,6 +106,7 @@ this.geoDbService.findCityById("Q65")
             radiusUnit: "MI"
           },
           minPopulation: 50000,
+          types: ["CITY"],          
           sortDirectives: [
             "-population"
           ],
@@ -114,9 +114,9 @@ this.geoDbService.findCityById("Q65")
           offset: 0
         })
         .subscribe(
-          (citiesNearLocationResponse: GeoResponse<CitySummary[]>) => {
+          (citiesNearLocationResponse: GeoResponse<PlaceSummary[]>) => {
             const totalCount = citiesNearLocationResponse.metadata.totalCount;
-            let data: CitySummary[] = citiesNearLocationResponse.data;
+            let data: PlaceSummary[] = citiesNearLocationResponse.data;
 
             // Do your thing!
         }
@@ -127,10 +127,11 @@ this.geoDbService.findCityById("Q65")
 
 Find all cities in California having a minimum population of 100,000 - sorting by population, ascending (first 10 results):
 ```
-this.geoDbService.findRegionCities({
+this.geoDbService.findRegionPlaces({
     countryId: "US",
     regionCode: "CA",
     minPopulation: 100000,
+    types: ["CITY"],        
     sortDirectives: [
       "population"
     ],
@@ -138,9 +139,9 @@ this.geoDbService.findRegionCities({
     offset: 0
   })
   .subscribe(
-    (response: GeoResponse<CitySummary[]>) => {
+    (response: GeoResponse<PlaceSummary[]>) => {
       const totalCount = response.metadata.totalCount;
-      let data: CitySummary[] = response.data;
+      let data: PlaceSummary[] = response.data;
 
       // Do your thing!
     }
@@ -150,10 +151,11 @@ this.geoDbService.findRegionCities({
 
 Find all cities in the Los Angeles and New York time-zones - sorting by elevation, ascending, then population, descending (first 10 results):
 ```
-this.geoDbService.findCities({
+this.geoDbService.findPlaces({
     timeZoneIds: [
       "America__Los_Angeles, America__New_York"
     ],
+    ypes: ["CITY"],
     sortDirectives: [
       "elevation",
       "-population"
@@ -162,9 +164,9 @@ this.geoDbService.findCities({
     offset: 0
   })
   .subscribe(
-    (response: GeoResponse<CitySummary[]>) => {
+    (response: GeoResponse<PlaceSummary[]>) => {
       const totalCount = response.metadata.totalCount;
-      let data: CitySummary[] = response.data;
+      let data: PlaceSummary[] = response.data;
 
       // Do your thing!
     }

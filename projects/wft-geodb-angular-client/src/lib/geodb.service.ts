@@ -240,7 +240,7 @@ export class GeoDbService {
     // Workaround for HttpClient '+' encoding bug.
     const locationId = GeoDbService
       .toLocationString(request.location)
-      .replace('+', '%2B');
+      .replaceAll('+', '%2B');
 
     const endpoint = this.placesEndpoint + '?location=' + locationId;
 

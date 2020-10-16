@@ -29,7 +29,7 @@
             "scripts": []
           },
           "configurations": {
-            "dev": {
+            "development": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -57,7 +57,7 @@
                 }
               ]
             },
-            "prod": {
+            "production": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -152,7 +152,7 @@
             "project": "projects/wft-geodb-angular-client/ng-package.json"
           },
           "configurations": {
-            "prod": {
+            "production": {
               "project": "projects/wft-geodb-angular-client/ng-package.prod.json"
             }
           }

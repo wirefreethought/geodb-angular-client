@@ -93,11 +93,11 @@
             "browserTarget": "app:build"
           },
           "configurations": {
-            "dev": {
-              "browserTarget": "app:build:dev"
+            "development": {
+              "browserTarget": "app:build:development"
             },
-            "prod": {
-              "browserTarget": "app:build:prod"
+            "production": {
+              "browserTarget": "app:build:production"
             }
           }
         },

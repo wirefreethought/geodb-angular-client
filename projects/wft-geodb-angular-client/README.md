@@ -39,8 +39,8 @@ Otherwise, if using the PRO instance:
       imports: [
         ...
         GeoDbProModule.forRoot({
-          apiKey: YOUR_MASHAPE_KEY,
-          serviceUri: https://wft-geo-db.p.mashape.com
+          apiKey: YOUR_RAPID-API_KEY,
+          serviceUri: https://wft-geo-db.p.rapidapi.com
         })
       ],
       bootstrap: [AppComponent]

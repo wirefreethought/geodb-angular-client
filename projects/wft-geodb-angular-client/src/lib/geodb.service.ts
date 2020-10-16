@@ -240,7 +240,7 @@ export class GeoDbService {
     // Workaround for HttpClient '+' encoding bug.
     const locationId = GeoDbService
       .toLocationString(request.location)
-      .replaceAll('+', '%2B');
+      .replace(/\+/g, '%2B');
 
     const endpoint = this.placesEndpoint + '?location=' + locationId;
 
@@ -363,7 +363,7 @@ export class GeoDbService {
 
     const params: HttpParams = GeoDbService.buildPagingParams(request);
 
-    return this.httpClient.get<GeoResponse<Locale[]>>(
+    return this.httpClient.get<GeoResponse<Language[]>>(
       this.languagesEndpoint,
       {
         params: params
@@ -493,10 +493,10 @@ export class GeoDbService {
 
   getPlaceDistance(request: GetPlaceDistanceRequest): Observable<GeoResponse<number>> {
 
-    const endpoint = this.buildPlaceEndpoint(request.toPlaceId) + '/distance';
+    const endpoint = this.buildPlaceEndpoint(request.fromPlaceId) + '/distance';
 
     const params: HttpParams = new HttpParams()
-      .set('fromPlaceId', '' + request.fromPlaceId)
+      .set('toPlaceId', '' + request.toPlaceId)
       .set('distanceUnit', '' + request.distanceUnit);
 
     return this.httpClient.get<GeoResponse<number>>(

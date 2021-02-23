@@ -127,28 +127,6 @@ export class GeoDbService {
     );
   }
 
-  findPlace(request: GetPlaceDetailsRequest): Observable<GeoResponse<PlaceDetails>> {
-
-    const endpoint = this.buildPlaceEndpoint(request.placeId);
-
-    let params: HttpParams = new HttpParams();
-
-    if (request.asciiMode) {
-      params = params.set('asciiMode', '' + request.asciiMode);
-    }
-
-    if (request.languageCode) {
-      params = params.set('languageCode', request.languageCode);
-    }
-
-    return this.httpClient.get<GeoResponse<PlaceDetails>>(
-      endpoint,
-      {
-        params: params
-      }
-    );
-  }
-
   findPlaces(request: FindPlacesRequest): Observable<GeoResponse<PlaceSummary[]>> {
 
     let params: HttpParams = GeoDbService.buildPagingParams(request);
@@ -482,6 +460,50 @@ export class GeoDbService {
 
   setApiKey(apiKey: string) {
     this.config.apiKey = apiKey;
+  }
+
+  getPlace(request: GetPlaceDetailsRequest): Observable<GeoResponse<PlaceDetails>> {
+
+    const endpoint = this.buildPlaceEndpoint(request.placeId);
+
+    let params: HttpParams = new HttpParams();
+
+    if (request.asciiMode) {
+      params = params.set('asciiMode', '' + request.asciiMode);
+    }
+
+    if (request.languageCode) {
+      params = params.set('languageCode', request.languageCode);
+    }
+
+    return this.httpClient.get<GeoResponse<PlaceDetails>>(
+      endpoint,
+      {
+        params: params
+      }
+    );
+  }
+
+  getPlaceAdminRegion(request: GetPlaceDetailsRequest): Observable<GeoResponse<PlaceDetails>> {
+
+    const endpoint = this.buildPlaceEndpoint(request.placeId) + '/locatedIn';
+
+    let params: HttpParams = new HttpParams();
+
+    if (request.asciiMode) {
+      params = params.set('asciiMode', '' + request.asciiMode);
+    }
+
+    if (request.languageCode) {
+      params = params.set('languageCode', request.languageCode);
+    }
+
+    return this.httpClient.get<GeoResponse<PlaceDetails>>(
+      endpoint,
+      {
+        params: params
+      }
+    );
   }
 
   getPlaceDateTime(id: string): Observable<GeoResponse<string>> {

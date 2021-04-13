@@ -8,6 +8,7 @@ export class PlaceSummary {
   latitude: number;
   longitude: number;
   name: string;
+  population: number;
   region: string;
   regionCode: string;
   type: string;

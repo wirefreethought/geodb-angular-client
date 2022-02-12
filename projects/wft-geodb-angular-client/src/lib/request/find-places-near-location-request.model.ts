@@ -5,7 +5,11 @@ export interface FindPlacesNearLocationRequest extends FindCollectionRequest {
   location: NearLocationRequest;
 
   minPopulation?: number;
+  maxPopulation?: number;
+
   namePrefix?: string;
+  namePrefixDefaultLangResults?: boolean;
+
   types?: Array<string>;
 
   asciiMode?: boolean;

@@ -5,6 +5,11 @@ export interface FindRegionCitiesRequest extends FindCollectionRequest {
   regionCode: string;
 
   minPopulation?: number;
+  maxPopulation?: number;
+
+  namePrefix?: string;
+  namePrefixDefaultLangResults?: boolean;
+
   types?: Array<string>;
 
   asciiMode?: boolean;

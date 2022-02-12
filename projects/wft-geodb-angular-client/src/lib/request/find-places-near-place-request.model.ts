@@ -4,6 +4,11 @@ export interface FindPlacesNearPlaceRequest extends FindCollectionRequest {
   placeId: string;
 
   minPopulation?: number;
+  maxPopulation?: number;
+
+  namePrefix?: string;
+  namePrefixDefaultLangResults?: boolean;
+
   radius: number;
   distanceUnit: string;
   types?: Array<string>;

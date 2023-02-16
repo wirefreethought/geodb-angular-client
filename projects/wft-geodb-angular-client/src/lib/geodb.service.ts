@@ -43,7 +43,7 @@ export class GeoDbService {
 
   constructor(private httpClient: HttpClient, private config: GeoDbConfig) {
 
-    this.adminDivisionsEndpoint = config.serviceUri + 'v1/geo/adminDivisions';
+    this.adminDivisionsEndpoint = config.serviceUri + '/v1/geo/adminDivisions';
     this.countriesEndpoint = config.serviceUri + '/v1/geo/countries';
     this.currenciesEndpoint = config.serviceUri + '/v1/locale/currencies';
     this.languagesEndpoint = config.serviceUri + '/v1/locale/languages';

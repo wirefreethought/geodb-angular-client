@@ -4,7 +4,6 @@ export interface FindRegionCitiesRequest extends FindCollectionRequest {
   countryId: string;
   regionCode: string;
 
-  namePrefix: string;
   minPopulation?: number;
   maxPopulation?: number;
 

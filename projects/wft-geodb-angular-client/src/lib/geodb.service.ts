@@ -387,6 +387,10 @@ export class GeoDbService {
     const endpoint = this.buildRegionEndpoint(request.countryId, request.regionCode) + '/cities';
 
     let params: HttpParams = GeoDbService.buildPagingParams(request);
+    
+    if (request.namePrefix) {
+      params = params.set('namePrefix', request.namePrefix);
+    }
 
     if (request.minPopulation) {
       params = params.set('minPopulation', '' + request.minPopulation);

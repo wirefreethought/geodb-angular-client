@@ -1,9 +1,7 @@
 import {FindCollectionRequest} from './find-collection-request.model';
 
-export interface FindAdminDivisionsRequest extends FindCollectionRequest {
-
-  countryIds?: Array<string>;
-  excludedCountryIds?: Array<string>;
+export interface FindCountryPlacesRequest extends FindCollectionRequest {
+  countryId: string;
 
   minPopulation?: number;
   maxPopulation?: number;
@@ -11,7 +9,7 @@ export interface FindAdminDivisionsRequest extends FindCollectionRequest {
   namePrefix?: string;
   namePrefixDefaultLangResults?: boolean;
 
-  timeZoneIds?: Array<string>;
+  types?: Array<string>;
 
   asciiMode?: boolean;
   languageCode?: string;

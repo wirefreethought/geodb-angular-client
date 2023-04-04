@@ -1,17 +1,21 @@
 export class PlaceSummary {
+  type: string;
+
   id: string;
   wikiDataId: string;
 
-  city: string;
   country: string;
   countryCode: string;
-  latitude: number;
-  longitude: number;
-  name: string;
-  population: number;
+
   region: string;
   regionCode: string;
-  type: string;
+  regionWdId: string;
+
+  latitude: number;
+  longitude: number;
+
+  name: string;
+  population: number;
 
   // Only included if the result of a location-constrained request
   distance: number;

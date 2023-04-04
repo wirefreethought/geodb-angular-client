@@ -16,12 +16,13 @@ import {RegionDetails} from './model/region-details.model';
 import {Currency} from './model/currency.model';
 import {Locale} from './model/locale.model';
 import {FindAdminDivisionsRequest} from './request/find-admin-divisions-request.model';
+import {FindCountryPlacesRequest} from './request/find-country-places-request.model';
 import {FindPlacesRequest} from './request/find-places-request.model';
 import {FindCollectionRequest} from './request/find-collection-request.model';
 import {FindCountriesRequest} from './request/find-countries-request.model';
 import {FindCurrenciesRequest} from './request/find-currencies-request.model';
 import {FindRegionsRequest} from './request/find-regions-request.model';
-import {FindRegionCitiesRequest} from './request/find-region-cities-request.model';
+import {FindRegionPlacesRequest} from './request/find-region-places-request.model';
 import {FindPlacesNearPlaceRequest} from './request/find-places-near-place-request.model';
 import {TimeZone} from './model/time-zone.model';
 import {GetPlaceDistanceRequest} from './request/get-place-distance-request.model';
@@ -48,7 +49,7 @@ export class GeoDbService {
     this.currenciesEndpoint = config.serviceUri + '/v1/locale/currencies';
     this.languagesEndpoint = config.serviceUri + '/v1/locale/languages';
     this.localesEndpoint = config.serviceUri + '/v1/locale/locales';
-    this.placesEndpoint = config.serviceUri + '/v1/geo/cities';
+    this.placesEndpoint = config.serviceUri + '/v1/geo/places';
     this.timeZonesEndpoint = config.serviceUri + '/v1/locale/timezones';
   }
 
@@ -95,8 +96,16 @@ export class GeoDbService {
       params = params.set('namePrefix', request.namePrefix);
     }
 
+    if (request.namePrefixDefaultLangResults) {
+      params = params.set('namePrefixDefaultLangResults', request.namePrefixDefaultLangResults);
+    }
+
     if (request.minPopulation) {
       params = params.set('minPopulation', '' + request.minPopulation);
+    }
+
+    if (request.maxPopulation) {
+      params = params.set('maxPopulation', '' + request.maxPopulation);
     }
 
     if (request.timeZoneIds) {
@@ -127,151 +136,6 @@ export class GeoDbService {
     );
   }
 
-  findPlaces(request: FindPlacesRequest): Observable<GeoResponse<PlaceSummary[]>> {
-
-    let params: HttpParams = GeoDbService.buildPagingParams(request);
-
-    if (request.countryIds) {
-      params = params.set('countryIds', request.countryIds.join(','));
-    }
-
-    if (request.excludedCountryIds) {
-      params = params.set('excludedCountryIds', request.excludedCountryIds.join(','));
-    }
-
-    if (request.namePrefix) {
-      params = params.set('namePrefix', request.namePrefix);
-    }
-
-    if (request.minPopulation) {
-      params = params.set('minPopulation', '' + request.minPopulation);
-    }
-
-    if (request.timeZoneIds) {
-      params = params.set('timeZoneIds', request.timeZoneIds.join(','));
-    }
-
-    if (request.types) {
-      params = params.set('types', request.types.join(','));
-    }
-
-    if (request.asciiMode) {
-      params = params.set('asciiMode', '' + request.asciiMode);
-    }
-
-    if (request.languageCode) {
-      params = params.set('languageCode', request.languageCode);
-    }
-
-    if (request.sortDirectives) {
-      params = params.set('sort', request.sortDirectives.join(','));
-    }
-
-    if (request.includeDeleted) {
-      params = params.set('includeDeleted', request.includeDeleted);
-    }
-
-    return this.httpClient.get<GeoResponse<PlaceSummary[]>>(
-      this.placesEndpoint,
-      {
-        params: params
-      }
-    );
-  }
-
-  findPlacesNearLocation(request: FindPlacesNearLocationRequest): Observable<GeoResponse<PlaceSummary[]>> {
-
-    let params: HttpParams = GeoDbService.buildPagingParams(request);
-
-    params = params
-      .set('radius', '' + request.location.radius)
-      .set('distanceUnit', request.location.distanceUnit);
-
-    if (request.minPopulation) {
-      params = params.set('minPopulation', '' + request.minPopulation);
-    }
-
-    if (request.namePrefix) {
-      params = params.set('namePrefix', request.namePrefix);
-    }
-
-    if (request.types) {
-      params = params.set('types', request.types.join(','));
-    }
-
-    if (request.asciiMode) {
-      params = params.set('asciiMode', '' + request.asciiMode);
-    }
-
-    if (request.languageCode) {
-      params = params.set('languageCode', request.languageCode);
-    }
-
-    if (request.sortDirectives) {
-      params = params.set('sort', request.sortDirectives.join(','));
-    }
-
-    if (request.includeDeleted) {
-      params = params.set('includeDeleted', request.includeDeleted);
-    }
-
-    // Workaround for HttpClient '+' encoding bug.
-    const locationId = GeoDbService
-      .toLocationString(request.location)
-      .replace(/\+/g, '%2B');
-
-    const endpoint = this.placesEndpoint + '?location=' + locationId;
-
-    return this.httpClient.get<GeoResponse<PlaceSummary[]>>(
-      endpoint,
-      {
-        params: params
-      }
-    );
-  }
-
-  findPlacesNearPlace(request: FindPlacesNearPlaceRequest): Observable<GeoResponse<PlaceSummary[]>> {
-
-    let params: HttpParams = GeoDbService.buildPagingParams(request);
-
-    params = params
-      .set('radius', '' + request.radius)
-      .set('distanceUnit', request.distanceUnit);
-
-    if (request.minPopulation) {
-      params = params.set('minPopulation', '' + request.minPopulation);
-    }
-
-    if (request.types) {
-      params = params.set('types', request.types.join(','));
-    }
-
-    if (request.asciiMode) {
-      params = params.set('asciiMode', '' + request.asciiMode);
-    }
-
-    if (request.languageCode) {
-      params = params.set('languageCode', request.languageCode);
-    }
-
-    if (request.sortDirectives) {
-      params = params.set('sort', request.sortDirectives.join(','));
-    }
-
-    if (request.includeDeleted) {
-      params = params.set('includeDeleted', request.includeDeleted);
-    }
-
-    const endpoint = this.placesEndpoint + '/' + request.placeId + '/nearbyCities';
-
-    return this.httpClient.get<GeoResponse<PlaceSummary[]>>(
-      endpoint,
-      {
-        params: params
-      }
-    );
-  }
-
   findCountries(request: FindCountriesRequest): Observable<GeoResponse<CountrySummary[]>> {
 
     let params: HttpParams = GeoDbService.buildPagingParams(request);
@@ -284,6 +148,10 @@ export class GeoDbService {
       params = params.set('namePrefix', request.namePrefix);
     }
 
+    if (request.namePrefixDefaultLangResults) {
+      params = params.set('namePrefixDefaultLangResults', request.namePrefixDefaultLangResults);
+    }
+
     if (request.asciiMode) {
       params = params.set('asciiMode', '' + request.asciiMode);
     }
@@ -294,6 +162,52 @@ export class GeoDbService {
 
     return this.httpClient.get<GeoResponse<CountrySummary[]>>(
       this.countriesEndpoint,
+      {
+        params: params
+      }
+    );
+  }
+  
+  findCountryPlaces(request: FindCountryPlacesRequest): Observable<GeoResponse<PlaceSummary[]>> {
+
+    const endpoint = this.buildCountryEndpoint(request.countryId) + '/places';
+
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
+
+    if (request.namePrefix) {
+      params = params.set('namePrefix', request.namePrefix);
+    }
+
+    if (request.namePrefixDefaultLangResults) {
+      params = params.set('namePrefixDefaultLangResults', request.namePrefixDefaultLangResults);
+    }
+
+    if (request.minPopulation) {
+      params = params.set('minPopulation', '' + request.minPopulation);
+    }
+
+    if (request.maxPopulation) {
+      params = params.set('maxPopulation', '' + request.maxPopulation);
+    }
+
+    if (request.types) {
+      params = params.set('types', request.types.join(','));
+    }
+
+    if (request.asciiMode) {
+      params = params.set('asciiMode', '' + request.asciiMode);
+    }
+
+    if (request.languageCode) {
+      params = params.set('languageCode', request.languageCode);
+    }
+
+    if (request.sortDirectives) {
+      params = params.set('sort', request.sortDirectives.join(','));
+    }
+
+    return this.httpClient.get<GeoResponse<PlaceSummary[]>>(
+      endpoint,
       {
         params: params
       }
@@ -361,6 +275,180 @@ export class GeoDbService {
     );
   }
 
+
+  findPlaces(request: FindPlacesRequest): Observable<GeoResponse<PlaceSummary[]>> {
+
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
+
+    if (request.countryIds) {
+      params = params.set('countryIds', request.countryIds.join(','));
+    }
+
+    if (request.excludedCountryIds) {
+      params = params.set('excludedCountryIds', request.excludedCountryIds.join(','));
+    }
+
+    if (request.namePrefix) {
+      params = params.set('namePrefix', request.namePrefix);
+    }
+
+    if (request.namePrefixDefaultLangResults) {
+      params = params.set('namePrefixDefaultLangResults', request.namePrefixDefaultLangResults);
+    }
+
+    if (request.minPopulation) {
+      params = params.set('minPopulation', '' + request.minPopulation);
+    }
+
+    if (request.maxPopulation) {
+      params = params.set('maxPopulation', '' + request.maxPopulation);
+    }
+
+    if (request.timeZoneIds) {
+      params = params.set('timeZoneIds', request.timeZoneIds.join(','));
+    }
+
+    if (request.types) {
+      params = params.set('types', request.types.join(','));
+    }
+
+    if (request.asciiMode) {
+      params = params.set('asciiMode', '' + request.asciiMode);
+    }
+
+    if (request.languageCode) {
+      params = params.set('languageCode', request.languageCode);
+    }
+
+    if (request.sortDirectives) {
+      params = params.set('sort', request.sortDirectives.join(','));
+    }
+
+    if (request.includeDeleted) {
+      params = params.set('includeDeleted', request.includeDeleted);
+    }
+
+    return this.httpClient.get<GeoResponse<PlaceSummary[]>>(
+      this.placesEndpoint,
+      {
+        params: params
+      }
+    );
+  }
+
+  findPlacesNearLocation(request: FindPlacesNearLocationRequest): Observable<GeoResponse<PlaceSummary[]>> {
+
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
+
+    params = params
+      .set('radius', '' + request.location.radius)
+      .set('distanceUnit', request.location.distanceUnit);
+
+    if (request.namePrefix) {
+      params = params.set('namePrefix', request.namePrefix);
+    }
+
+    if (request.namePrefixDefaultLangResults) {
+      params = params.set('namePrefixDefaultLangResults', request.namePrefixDefaultLangResults);
+    }
+
+    if (request.minPopulation) {
+      params = params.set('minPopulation', '' + request.minPopulation);
+    }
+
+    if (request.maxPopulation) {
+      params = params.set('maxPopulation', '' + request.maxPopulation);
+    }
+
+    if (request.types) {
+      params = params.set('types', request.types.join(','));
+    }
+
+    if (request.asciiMode) {
+      params = params.set('asciiMode', '' + request.asciiMode);
+    }
+
+    if (request.languageCode) {
+      params = params.set('languageCode', request.languageCode);
+    }
+
+    if (request.sortDirectives) {
+      params = params.set('sort', request.sortDirectives.join(','));
+    }
+
+    if (request.includeDeleted) {
+      params = params.set('includeDeleted', request.includeDeleted);
+    }
+
+    // Workaround for HttpClient '+' encoding bug.
+    const locationId = GeoDbService
+      .toLocationString(request.location)
+      .replace(/\+/g, '%2B');
+
+    const endpoint = this.placesEndpoint + '?location=' + locationId;
+
+    return this.httpClient.get<GeoResponse<PlaceSummary[]>>(
+      endpoint,
+      {
+        params: params
+      }
+    );
+  }
+
+  findPlacesNearPlace(request: FindPlacesNearPlaceRequest): Observable<GeoResponse<PlaceSummary[]>> {
+
+    let params: HttpParams = GeoDbService.buildPagingParams(request);
+
+    params = params
+      .set('radius', '' + request.radius)
+      .set('distanceUnit', request.distanceUnit);
+
+    if (request.namePrefix) {
+      params = params.set('namePrefix', request.namePrefix);
+    }
+
+    if (request.namePrefixDefaultLangResults) {
+      params = params.set('namePrefixDefaultLangResults', request.namePrefixDefaultLangResults);
+    }
+
+    if (request.minPopulation) {
+      params = params.set('minPopulation', '' + request.minPopulation);
+    }
+
+    if (request.maxPopulation) {
+      params = params.set('maxPopulation', '' + request.maxPopulation);
+    }
+
+    if (request.types) {
+      params = params.set('types', request.types.join(','));
+    }
+
+    if (request.asciiMode) {
+      params = params.set('asciiMode', '' + request.asciiMode);
+    }
+
+    if (request.languageCode) {
+      params = params.set('languageCode', request.languageCode);
+    }
+
+    if (request.sortDirectives) {
+      params = params.set('sort', request.sortDirectives.join(','));
+    }
+
+    if (request.includeDeleted) {
+      params = params.set('includeDeleted', request.includeDeleted);
+    }
+
+    const endpoint = this.placesEndpoint + '/' + request.placeId + '/nearbyPlaces';
+
+    return this.httpClient.get<GeoResponse<PlaceSummary[]>>(
+      endpoint,
+      {
+        params: params
+      }
+    );
+  }
+
   findRegion(request: GetRegionDetailsRequest): Observable<GeoResponse<RegionDetails>> {
 
     const endpoint = this.buildRegionsEndpoint(request.countryId) + '/' + request.regionCode;
@@ -382,18 +470,26 @@ export class GeoDbService {
       });
   }
 
-  findRegionPlaces(request: FindRegionCitiesRequest): Observable<GeoResponse<PlaceSummary[]>> {
+  findRegionPlaces(request: FindRegionPlacesRequest): Observable<GeoResponse<PlaceSummary[]>> {
 
-    const endpoint = this.buildRegionEndpoint(request.countryId, request.regionCode) + '/cities';
+    const endpoint = this.buildRegionEndpoint(request.countryId, request.regionId) + '/places';
 
     let params: HttpParams = GeoDbService.buildPagingParams(request);
-    
+
     if (request.namePrefix) {
       params = params.set('namePrefix', request.namePrefix);
     }
 
+    if (request.namePrefixDefaultLangResults) {
+      params = params.set('namePrefixDefaultLangResults', request.namePrefixDefaultLangResults);
+    }
+
     if (request.minPopulation) {
       params = params.set('minPopulation', '' + request.minPopulation);
+    }
+
+    if (request.maxPopulation) {
+      params = params.set('maxPopulation', '' + request.maxPopulation);
     }
 
     if (request.types) {
@@ -428,6 +524,10 @@ export class GeoDbService {
 
     if (request.namePrefix) {
         params = params.set('namePrefix', request.namePrefix);
+    }
+
+    if (request.namePrefixDefaultLangResults) {
+      params = params.set('namePrefixDefaultLangResults', request.namePrefixDefaultLangResults);
     }
 
     if (request.asciiMode) {
@@ -554,16 +654,20 @@ export class GeoDbService {
     return this.httpClient.get<GeoResponse<string>>(endpoint);
   }
 
+  private buildCountryEndpoint(countryId: string): string {
+    return this.countriesEndpoint + '/' + countryId;
+  }
+
   private buildPlaceEndpoint(olaceId: string): string {
     return this.placesEndpoint + '/' + olaceId;
   }
 
-  private buildRegionEndpoint(countryId: string, regionCode: string): string {
-    return this.buildRegionsEndpoint(countryId) + '/' + regionCode;
+  private buildRegionEndpoint(countryId: string, regionId: string): string {
+    return this.buildRegionsEndpoint(countryId) + '/' + regionId;
   }
 
   private buildRegionsEndpoint(countryId: string): string {
-    return this.countriesEndpoint + '/' + countryId + '/regions';
+    return this.buildCountryEndpoint(countryId) + '/regions';
   }
 
   private buildTimeZoneEndpoint(zoneId: string): string {

@@ -1,8 +1,8 @@
 import {FindCollectionRequest} from './find-collection-request.model';
 
-export interface FindRegionCitiesRequest extends FindCollectionRequest {
+export interface FindRegionPlacesRequest extends FindCollectionRequest {
   countryId: string;
-  regionCode: string;
+  regionId: string;
 
   minPopulation?: number;
   maxPopulation?: number;

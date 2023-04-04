@@ -167,7 +167,7 @@ export class GeoDbService {
       }
     );
   }
-  
+
   findCountryPlaces(request: FindCountryPlacesRequest): Observable<GeoResponse<PlaceSummary[]>> {
 
     const endpoint = this.buildCountryEndpoint(request.countryId) + '/places';

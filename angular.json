@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "preserveSymlinks": true,
             "outputPath": "dist/app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -68,7 +69,6 @@
                   "with": "src/environments/environment.working.ts"
                 }
               ],
-              "optimization": true,
               "outputHashing": "all"
             }
           },
@@ -89,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-project:build"
+            "browserTarget": "app:build"
           }
         },
         "test": {
@@ -121,16 +121,14 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/wft-geodb-angular-client/ng-package.json",
-            "tsConfig": "projects/wft-geodb-angular-client/tsconfig.lib.json"
-          },
           "configurations": {
             "development": {
-              "project": "projects/wft-geodb-angular-client/ng-package.json"
+              "project": "projects/wft-geodb-angular-client/ng-package.json",
+              "tsConfig": "projects/wft-geodb-angular-client/tsconfig.lib.json"
             },
             "production": {
-              "project": "projects/wft-geodb-angular-client/ng-package.prod.json"
+              "project": "projects/wft-geodb-angular-client/ng-package.prod.json",
+              "tsConfig": "projects/wft-geodb-angular-client/tsconfig.lib.prod.json"
             }
           },
           "defaultConfiguration": "production"

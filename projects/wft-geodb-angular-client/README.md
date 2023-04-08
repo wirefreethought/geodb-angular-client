@@ -52,7 +52,7 @@ Otherwise, if using the PRO instance:
 
 In your Typescript class:
 
-``constructor(private geoDbService: GeoDbService) { }``
+``constructor(private geoDbService: DummyService) { }``
 
 Later on, in some method:
 

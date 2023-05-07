@@ -8,7 +8,7 @@ This library provides Angular client bindings to the [GeoDB](http://geodb-cities
 
 2. ``npm install wft-geodb-angular-client@latest --save``
 
-If using the FREE instance, update your ``AppModule.ts`` as follows:
+If using the FREE instance, update your ``SampleAppModule.ts`` as follows:
 ```
 @NgModule({
   declarations: [
@@ -23,14 +23,14 @@ If using the FREE instance, update your ``AppModule.ts`` as follows:
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class SampleAppModule { }
 ```
 
 Otherwise, if using the PRO instance:
 
 1. Create an account on [RapidAPI](https://rapidapi.com). As part of account creation, Rapid asks for credit-card info. As long as you stay within the free usage limits of the Basic plan, your credit card will not be charged.
 2. [Select](https://rapidapi.com/wirefreethought/api/GeoDB%20Cities/pricing) a GeoDB plan.
-5. Update your ``AppModule.ts`` as follows:
+5. Update your ``SampleAppModule.ts`` as follows:
     ```
     @NgModule({
       declarations: [
@@ -45,7 +45,7 @@ Otherwise, if using the PRO instance:
       ],
       bootstrap: [AppComponent]
     })
-    export class AppModule { }
+    export class SampleAppModule { }
     ```
 
 ## Usage

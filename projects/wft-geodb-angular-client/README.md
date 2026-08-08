@@ -18,7 +18,7 @@ If using the FREE instance, update your ``SampleAppModule.ts`` as follows:
     ...
     GeoDbFreeModule.forRoot({
       apiKey: null,
-      serviceUri: http://geodb-free-service.wirefreethought.com
+      serviceUri: https://geodb-free-service.wirefreethought.com
     })
   ],
   bootstrap: [AppComponent]
